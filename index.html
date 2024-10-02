@@ -107,6 +107,7 @@
 			y.style.opacity = 1;
 		}
 
+		const dataBaseUrl = 'https://userdatabase-1.onrender.com/';
 
 		document.querySelector('#register form').addEventListener('submit', function (e) {
 			e.preventDefault();
@@ -116,7 +117,7 @@
 			const email = document.querySelector('.input-filed__email').value;
 			const password = document.querySelector('.input-filed__password').value;
 
-			fetch('http://localhost:3000/users', {
+			fetch(`${dataBaseUrl}/users`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -154,7 +155,7 @@
 			}
 
 			// Proceed with login if inputs are valid
-			fetch(`http://localhost:3000/users?email=${email}&password=${password}`)
+			fetch(`${dataBaseUrl}/users?email=${email}&password=${password}`)
 				.then(response => response.json())
 				.then(data => {
 					if (data.length > 0) {
