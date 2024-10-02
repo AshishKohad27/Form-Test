@@ -112,11 +112,37 @@
 		document.querySelector('#register form').addEventListener('submit', function (e) {
 			e.preventDefault();
 
-			const firstName = document.querySelector('.input-filed__firstname').value;
-			const lastName = document.querySelector('.input-filed__lastname').value;
-			const email = document.querySelector('.input-filed__email').value;
-			const password = document.querySelector('.input-filed__password').value;
+			const firstName = document.querySelector('.input-filed__firstname').value.trim();
+			const lastName = document.querySelector('.input-filed__lastname').value.trim();
+			const email = document.querySelector('.input-filed__email').value.trim();
+			const password = document.querySelector('.input-filed__password').value.trim();
 
+			// Input validation
+			if (!firstName || !lastName || !email || !password) {
+				alert('Please fill out all fields before submitting');
+				return; // Exit the function if validation fails
+			}
+
+			// Check if the email already exists in the database
+			fetch(`${dataBaseUrl}/users?email=${email}`)
+				.then(response => response.json())
+				.then(users => {
+					if (users.length > 0) {
+						// If a user with this email already exists, alert the user
+						alert('User with this email already exists. Please try with a different email.');
+					} else {
+						// Proceed with registration if the email is not taken
+						registerUser(firstName, lastName, email, password);
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					alert('An error occurred while checking email availability. Please try again later.');
+				});
+		});
+
+		// Function to register the user
+		function registerUser(firstName, lastName, email, password) {
 			fetch(`${dataBaseUrl}/users`, {
 				method: 'POST',
 				headers: {
@@ -131,18 +157,14 @@
 			})
 				.then(response => response.json())
 				.then(data => {
-					if (data.error && data.error === 'User already exists') {
-						alert('User already exists. Please try with a different email.');
-					} else {
-						alert('User registered successfully');
-						document.querySelector('#register form').reset(); // Reset the form after successful submission
-					}
+					alert('User registered successfully');
+					document.querySelector('#register form').reset(); // Reset the form after successful submission
 				})
 				.catch(error => {
 					console.error('Error:', error);
 					alert('An error occurred while registering the user. Please try again later.');
 				});
-		});
+		}
 
 
 
@@ -167,6 +189,9 @@
 				.then(data => {
 					if (data.length > 0) {
 						alert('Login successful');
+						document.querySelector('#login form').reset();
+						
+						window.location.href = '/home'; ; // Change '/home' to the desired URL
 					} else {
 						alert('Invalid email or password');
 					}
