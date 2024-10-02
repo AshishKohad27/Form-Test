@@ -1,0 +1,21 @@
+{
+  "users": [
+    {
+      "id": "5c2d",
+      "firstname": "Ashish",
+      "lastname": "Kohad",
+      "email": "k@gmail.com",
+      "password": ""
+    },
+    {
+      "id": "8310",
+      "firstname": "Ashish",
+      "lastname": "Kohad",
+      "email": "a@gmail.com",
+      "password": "a"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
