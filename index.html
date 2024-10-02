@@ -131,12 +131,19 @@
 			})
 				.then(response => response.json())
 				.then(data => {
-					alert('User registered successfully');
+					if (data.error && data.error === 'User already exists') {
+						alert('User already exists. Please try with a different email.');
+					} else {
+						alert('User registered successfully');
+						document.querySelector('#register form').reset(); // Reset the form after successful submission
+					}
 				})
 				.catch(error => {
 					console.error('Error:', error);
+					alert('An error occurred while registering the user. Please try again later.');
 				});
 		});
+
 
 
 		document.querySelector('#login form').addEventListener('submit', function (e) {
